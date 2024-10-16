@@ -121,7 +121,9 @@ python -m venv venv
 ```shell
 venv\Scripts\activate
 ```
+```shell
 pip install -r requirements.txt
+```
 ```shell
 copy .env-example .env
 ```
