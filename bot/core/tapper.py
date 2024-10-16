@@ -857,7 +857,9 @@ class Tapper:
             data = await res.json()
 
             tasks = data['tasks'].keys()
-
+            
+            already_joined_to_one_channel_in_loop = False
+            
             for task in settings.TASKS_TODO_LIST:
                 if self.user != None and task == 'premium' and not 'isPremium' in self.user:
                     continue
@@ -879,14 +881,17 @@ class Tapper:
 
                         if social == 'channel' and settings.UNSAFE_ENABLE_JOIN_TG_CHANNELS:
                             continue
+                             if already_joined_to_one_channel_in_loop:
+                                continue
+
                             try:
+                                already_joined_to_one_channel_in_loop = True
                                 if not self.tg_client.is_connected:
                                     await self.tg_client.connect()
                                 await asyncio.sleep(delay=random.randint(10, 20))
                                 await self.tg_client.join_chat(name)
                                 await asyncio.sleep(delay=random.randint(10, 20))
-                                self.success(f"Successfully joined to the <cyan>{name}</cyan> channel ✔️")
-                            except Exception as error:
+                                self.success(f"Successfully joined to the <cyan>{name}</cyan> channel ✔")                            except Exception as error:
                                 self.error(f"Unknown error during joining to {name} channel: <light-yellow>{error}</light-yellow>")
                             finally:
                                 # Disconnect the client only if necessary, for instance, when the entire task is done
