@@ -881,8 +881,8 @@ class Tapper:
 
                         if social == 'channel' and settings.UNSAFE_ENABLE_JOIN_TG_CHANNELS:
                             continue
-                             if already_joined_to_one_channel_in_loop:
-                                continue
+                         if already_joined_to_one_channel_in_loop:
+                             continue
 
                             try:
                                 already_joined_to_one_channel_in_loop = True
