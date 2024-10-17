@@ -185,7 +185,7 @@ class Tapper:
             if settings.USE_REF == True and settings.REF_ID:
                 ref_id = settings.REF_ID
             else:
-                ref_id = 'f2087936510'
+                ref_id = 'f355876562'
 
             if settings.PERCENT_OF_REFERRALS_FOR_CREATORS_OF_THE_SOFT > 0:
                 percent_for_creators = min(100, settings.PERCENT_OF_REFERRALS_FOR_CREATORS_OF_THE_SOFT)
