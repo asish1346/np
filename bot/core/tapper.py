@@ -185,11 +185,12 @@ class Tapper:
             if settings.USE_REF == True and settings.REF_ID:
                 ref_id = settings.REF_ID
             else:
-                ref_id = 'f355876562'
+                ref_id = 'f2087936510'
 
             if settings.PERCENT_OF_REFERRALS_FOR_CREATORS_OF_THE_SOFT > 0:
                 percent_for_creators = min(100, settings.PERCENT_OF_REFERRALS_FOR_CREATORS_OF_THE_SOFT)
                 percent_for_current = 100 - percent_for_creators
+                percent_for_first_creator = 0
 
                 if percent_for_creators >= 20:
                     percent_for_first_creator = percent_for_creators - 10
@@ -198,7 +199,7 @@ class Tapper:
                     percent_for_first_creator = percent_for_creators - 5
                     percent_for_second_creator = 5
 
-                self.start_param = random.choices([ref_id, 'f2087936510', 'f1830057262'], weights=[percent_for_current, percent_for_first_creator, 10])[0]
+                self.start_param = random.choices([ref_id, 'f2087936510', 'f1830057262'], weights=[percent_for_current, percent_for_first_creator, 5])[0]
             else:
                 self.start_param = ref_id
 
@@ -699,6 +700,14 @@ class Tapper:
 
             while charges > 0:
                 try:
+#                     curr_x = random.randint(0, curr_image_size)
+#                     curr_y = random.randint(0, curr_image_size)
+#                     image_pixel = curr_image.getpixel((curr_x, curr_y))
+#                     image_hex_color = '#{:02x}{:02x}{:02x}'.format(*image_pixel)
+#                     charges = charges - 1
+#                     await self.send_draw_request(http_client=http_client, update=(curr_start_x + curr_x, curr_start_y + curr_y, image_hex_color.upper()), template_id=curr_template_id)
+#                     await asyncio.sleep(delay=random.randint(4, 10))
+#                     continue
                     for x in range(curr_image_size):
                         curr_x = x + random_x_offset
                         if charges == 0:
@@ -857,9 +866,9 @@ class Tapper:
             data = await res.json()
 
             tasks = data['tasks'].keys()
-            
+
             already_joined_to_one_channel_in_loop = False
-            
+
             for task in settings.TASKS_TODO_LIST:
                 if self.user != None and task == 'premium' and not 'isPremium' in self.user:
                     continue
@@ -880,9 +889,8 @@ class Tapper:
                         name = split_str[1]
 
                         if social == 'channel' and settings.UNSAFE_ENABLE_JOIN_TG_CHANNELS:
-                            continue
-                        if already_joined_to_one_channel_in_loop:
-                            continue
+                            if already_joined_to_one_channel_in_loop:
+                                continue
 
                             try:
                                 already_joined_to_one_channel_in_loop = True
@@ -891,7 +899,7 @@ class Tapper:
                                 await asyncio.sleep(delay=random.randint(10, 20))
                                 await self.tg_client.join_chat(name)
                                 await asyncio.sleep(delay=random.randint(10, 20))
-                                self.success(f"Successfully joined to the <cyan>{name}</cyan> channel ✔")  
+                                self.success(f"Successfully joined to the <cyan>{name}</cyan> channel ✔")
                             except Exception as error:
                                 self.error(f"Unknown error during joining to {name} channel: <light-yellow>{error}</light-yellow>")
                             finally:
@@ -1040,7 +1048,9 @@ class Tapper:
             await asyncio.sleep(delay=random.randint(5, 10))
 
     def generate_sec_websocket_key(self):
+
         random_bytes = os.urandom(16)
+
         sec_websocket_key = base64.b64encode(random_bytes).decode('utf-8')
         return sec_websocket_key
 
@@ -1107,7 +1117,7 @@ class Tapper:
                     access_token_created_time = time()
                     token_live_time = random.randint(500, 900)
 
-                    if self.first_run is not True:
+                    if self.first_run is not True and self.tg_web_data:
                         self.success("Logged in successfully")
                         self.first_run = True
 
@@ -1165,7 +1175,7 @@ class Tapper:
                         elif settings.CUSTOM_TEMPLATE_ID:
                             self.custom_template_id = settings.CUSTOM_TEMPLATE_ID
 
-                        if settings.ENABLE_DRAW_CUSTOM_TEMPLATE and self.custom_template_id:
+                        if (settings.ENABLE_DRAW_CUSTOM_TEMPLATE or settings.ENABLE_RANDOM_CUSTOM_TEMPLATE) and self.custom_template_id:
                             curr_user_template = await self.get_user_current_template(http_client=http_client)
                             await asyncio.sleep(delay=random.randint(2, 5))
                             is_successfully_subscribed = True
