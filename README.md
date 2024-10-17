@@ -99,7 +99,7 @@ cp .env-example .env
 ```shell
 nano .env 
 ```
- # Here you must specify your API_ID and API_HASH, the rest is taken by default
+ Here you must specify your API_ID and API_HASH, the rest is taken by default
  ```shell
 python3 main.py
 ```
