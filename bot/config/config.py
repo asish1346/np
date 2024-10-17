@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     SLEEP_TIME_IN_MINUTES: list[int] = [20, 40]
 
-    ENABLE_AUTO_TASKS: bool = True
+    ENABLE_AUTO_TASKS: bool = False
     ENABLE_AUTO_DRAW: bool = True
     UNSAFE_ENABLE_JOIN_TG_CHANNELS: bool = False # NOT RECOMMENDED
     ENABLE_CLAIM_REWARD: bool = True
