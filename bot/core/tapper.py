@@ -672,7 +672,7 @@ class Tapper:
             image_headers = deepcopy(headers)
             image_headers['Host'] = 'image.notpx.app'
 
-            current_image = await self.get_image(http_client, current_image_url, image_headers=image_headers, load_from_file=False)  # The image_headers argument is not required
+            current_image = await self.get_image(http_client, current_image_url, image_headers=image_headers, load_from_file=False)  # Аргумент image_headers не потрібен
             return current_image
         except Exception as error:
             self.error(f"Unknown error during getting updated image: <light-yellow>{error}</light-yellow>")
@@ -1035,9 +1035,9 @@ class Tapper:
             await asyncio.sleep(delay=random.randint(5, 10))
 
     def generate_sec_websocket_key(self):
-        # Generate 16 random bytes
+        # Генерируем 16 случайных байтов
         random_bytes = os.urandom(16)
-        # Encode to Base64 format
+        # Кодируем в формат Base64
         sec_websocket_key = base64.b64encode(random_bytes).decode('utf-8')
         return sec_websocket_key
 
