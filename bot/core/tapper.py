@@ -672,7 +672,7 @@ class Tapper:
             image_headers = deepcopy(headers)
             image_headers['Host'] = 'image.notpx.app'
 
-            current_image = await self.get_image(http_client, current_image_url, image_headers=image_headers, load_from_file=False)  # Аргумент image_headers не потрібен
+            current_image = await self.get_image(http_client, current_image_url, image_headers=image_headers, load_from_file=False)  # The image_headers argument is not required
             return current_image
         except Exception as error:
             self.error(f"Unknown error during getting updated image: <light-yellow>{error}</light-yellow>")
